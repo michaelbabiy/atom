@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ConnectivityPlugin Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/ConnectivityPlugin" class="dashAnchor"></a>
+    <a title="ConnectivityPlugin Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AtomNetworking Docs</a> (100% documented)</p>
+        <div class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AtomNetworking</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        <a href="../Structs.html">Structures</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        ConnectivityPlugin Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Actors/PathMonitor.html">PathMonitor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/AtomError.html">AtomError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/AuthenticationMethod.html">AuthenticationMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BaseURLScheme.html">BaseURLScheme</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GrantType.html">GrantType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/HTTPMethod.html">HTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RequestableError.html">RequestableError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SessionConfiguration.html">SessionConfiguration</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/s:10Foundation4DataV">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLResponse.html">URLResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSessionTask.html">URLSessionTask</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/URLSessionTaskMetrics.html">URLSessionTaskMetrics</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/AtomPlugin.html">AtomPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/BasicCredentialConvertible.html">BasicCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ClientCredentialConvertible.html">ClientCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Requestable.html">Requestable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RequestableItem.html">RequestableItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TokenCredentialWritable.html">TokenCredentialWritable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Atom.html">Atom</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AtomResponse.html">AtomResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AuthorizationEndpoint.html">AuthorizationEndpoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BaseURL.html">BaseURL</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/BasicCredential.html">BasicCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ClientCredential.html">ClientCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError.html">ConnectivityError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError/Reason.html">– Reason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityPlugin.html">ConnectivityPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot.html">ConnectivitySnapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Interface.html">– Interface</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/HeaderItem.html">HeaderItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NextHandler.html">NextHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/QueryItem.html">QueryItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ServiceConfiguration.html">ServiceConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ServiceTimeout.html">ServiceTimeout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TokenCredential.html">TokenCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/URLPath.html">URLPath</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ConnectivityPlugin</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ConnectivityPlugin</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/AtomPlugin.html">AtomPlugin</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>A plugin that refuses a request when the device has settled into having no usable network path.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">atom</span> <span class="o">=</span> <span class="kt">Atom</span><span class="p">(</span>
+    <span class="nv">serviceConfiguration</span><span class="p">:</span> <span class="kt">ServiceConfiguration</span><span class="p">(</span>
+        <span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span><span class="kt">ConnectivityPlugin</span><span class="p">()]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>The refusal arrives as <code>AtomError.connectivity</code> carrying a <code><a href="../Structs/ConnectivityError.html">ConnectivityError</a></code> with a reason of <code>.gated</code>.
+A client that only wants to know whether the device is offline does not have to distinguish it from a
+transport level failure, since both arrive as the same case.</p>
+<h2 id='why-we-don-39-t-simply-check-the-network-first' class='heading'>Why we don&rsquo;t simply check the network first?</h2>
+
+<p>A device being connected to Wi-Fi or cellular doesn&rsquo;t mean the request will actually work.
+For example, a captive Wi-Fi portal or a VPN can show that the network is connected while requests still fail.
+So the plugin only blocks a request when the system tells us there is no network route at all. If a route exists, we
+let the request proceed and see what happens.</p>
+<h2 id='why-we-wait-before-blocking' class='heading'>Why we wait before blocking</h2>
+
+<p>Network connections can briefly disappear when switching from Wi-Fi to cellular.
+If we blocked the request immediately, we&rsquo;d sometimes report that the device is offline when it&rsquo;s actually
+just switching connections. So we wait until the network has been unavailable for settlingInterval before blocking the request.</p>
+
+<p>Because plugins run outside de-duplication and authorization, a refusal here never wakes a token refresh.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Static%20Properties"></a>
+                <a name="//apple_ref/swift/Section/Static Properties" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Static%20Properties"></a>
+                  <h3 class="section-name"><span>Static Properties</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking18ConnectivityPluginV23defaultSettlingIntervals8DurationVvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/defaultSettlingInterval" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking18ConnectivityPluginV23defaultSettlingIntervals8DurationVvpZ">defaultSettlingInterval</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default interval a path must stay unsatisfied before requests are refused.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">defaultSettlingInterval</span><span class="p">:</span> <span class="kt">Duration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Lifecycle"></a>
+                <a name="//apple_ref/swift/Section/Lifecycle" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Lifecycle"></a>
+                  <h3 class="section-name"><span>Lifecycle</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking18ConnectivityPluginV7monitor16settlingIntervalAcA0C10Monitoring_p_s8DurationVtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(monitor:settlingInterval:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking18ConnectivityPluginV7monitor16settlingIntervalAcA0C10Monitoring_p_s8DurationVtcfc">init(monitor:<wbr>settlingInterval:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ConnectivityPlugin</code> instance given the provided parameter(s).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">monitor</span><span class="p">:</span> <span class="n">any</span> <span class="kt"><a href="../Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a></span> <span class="o">=</span> <span class="kt"><a href="../Actors/PathMonitor.html">PathMonitor</a></span><span class="p">(),</span> <span class="nv">settlingInterval</span><span class="p">:</span> <span class="kt">Duration</span> <span class="o">=</span> <span class="kt">ConnectivityPlugin</span><span class="o">.</span><span class="n"><a href="../Structs/ConnectivityPlugin.html#/s:14AtomNetworking18ConnectivityPluginV23defaultSettlingIntervals8DurationVvpZ">defaultSettlingInterval</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>monitor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The monitor supplying path readings. Default value is a new <code><a href="../Actors/PathMonitor.html">PathMonitor</a></code>. Pass
+              your own conforming type when the app already owns a monitor, so the process does
+              not run two.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settlingInterval</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The interval a path must stay unsatisfied before requests are refused. Default
+              value is <code><a href="../Structs/ConnectivityPlugin.html#/s:14AtomNetworking18ConnectivityPluginV23defaultSettlingIntervals8DurationVvpZ">defaultSettlingInterval</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Functions"></a>
+                <a name="//apple_ref/swift/Section/Functions" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Functions"></a>
+                  <h3 class="section-name"><span>Functions</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking18ConnectivityPluginV4send_4nextAA0A8ResponseVAA11Requestable_p_AA11NextHandlerVtYaAA0A5ErrorOYKF"></a>
+                    <a name="//apple_ref/swift/Method/send(_:next:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking18ConnectivityPluginV4send_4nextAA0A8ResponseVAA11Requestable_p_AA11NextHandlerVtYaAA0A5ErrorOYKF">send(_:<wbr>next:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Refuses the request if the path has settled into being unsatisfied, otherwise passes it along.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code>AtomError.connectivity</code> when the request is refused, or whatever the rest of the pipeline
+       throws.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">requestable</span><span class="p">:</span> <span class="n">any</span> <span class="kt"><a href="../Protocols/Requestable.html">Requestable</a></span><span class="p">,</span> <span class="nv">next</span><span class="p">:</span> <span class="kt"><a href="../Structs/NextHandler.html">NextHandler</a></span><span class="p">)</span> <span class="k">async</span> <span class="nf">throws</span><span class="p">(</span><span class="kt"><a href="../Enums/AtomError.html">AtomError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/AtomResponse.html">AtomResponse</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The request to handle.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>next</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The handler representing the rest of the pipeline.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The raw <code><a href="../Structs/AtomResponse.html">AtomResponse</a></code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-09-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</html>

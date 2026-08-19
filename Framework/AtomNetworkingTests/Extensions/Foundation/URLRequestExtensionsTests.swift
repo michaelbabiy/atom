@@ -22,7 +22,7 @@ import XCTest
 final class URLRequestExtensionsTests: XCTestCase {
     func testInitializeWithInvalidBaseURL() {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.invalidBaseURL
+        let endpoint: URLRequestEndpoint = .invalidBaseURL
 
         // When
         let request = try? URLRequest(requestable: endpoint)
@@ -33,7 +33,7 @@ final class URLRequestExtensionsTests: XCTestCase {
 
     func testInitializeWithInvalidURLPath() {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.invalidURLPath
+        let endpoint: URLRequestEndpoint = .invalidURLPath
 
         // When
         let request = try? URLRequest(requestable: endpoint)
@@ -44,7 +44,7 @@ final class URLRequestExtensionsTests: XCTestCase {
 
     func testInitializeWithValidBaseURLAndPath() throws {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.validBaseURLPath
+        let endpoint: URLRequestEndpoint = .validBaseURLPath
 
         // When
         let request: URLRequest = try URLRequest(requestable: endpoint)
@@ -55,88 +55,34 @@ final class URLRequestExtensionsTests: XCTestCase {
 
     func testInitializeWithValidHeaderValues() throws {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.validHeaderValues
+        let endpoint: URLRequestEndpoint = .validHeaderValues
 
         // When
         let request = try URLRequest(requestable: endpoint)
 
         // Then
-        XCTAssertEqual(request.allHTTPHeaderFields, URLRequestExtensionsTests.headers.dictionary)
+        XCTAssertEqual(request.allHTTPHeaderFields, URLRequestEndpoint.headers.dictionary)
     }
 
     func testInitializeWithValidBodyData() throws {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.validHTTPBody
+        let endpoint: URLRequestEndpoint = .validHTTPBody
 
         // When
         let request = try URLRequest(requestable: endpoint)
 
         // Then
-        XCTAssertEqual(request.httpBody, URLRequestExtensionsTests.body)
+        XCTAssertEqual(request.httpBody, URLRequestEndpoint.body)
     }
 
     func testInitializeWithValidHTTPMethodStringValue() throws {
         // Given
-        let endpoint = URLRequestExtensionsTests.Endpoint.validMethod
+        let endpoint: URLRequestEndpoint = .validMethod
 
         // When
         let request = try URLRequest(requestable: endpoint)
 
         // Then
         XCTAssertEqual(request.httpMethod, HTTPMethod.get.stringValue)
-    }
-}
-
-// MARK: - Test Data
-
-extension URLRequestExtensionsTests {
-    /// Test header values.
-    private static let headers = [HeaderItem(name: "name", value: "value")]
-
-    /// Test body data.
-    private static let body: Data = .init()
-
-    /// List of test endpoints.
-    private enum Endpoint: Requestable {
-        case invalidBaseURL
-        case invalidURLPath
-
-        case validBaseURLPath
-        case validHeaderValues
-        case validHTTPBody
-        case validMethod
-
-        // MARK: - Computed Properties
-
-        var headerItems: [HeaderItem]? { URLRequestExtensionsTests.headers }
-
-        var method: HTTPMethod {
-            switch self {
-            case .validHTTPBody:
-                return .post(URLRequestExtensionsTests.body)
-            default:
-                return .get
-            }
-        }
-
-        // MARK: - Functions
-
-        func baseURL() throws(AtomError) -> BaseURL {
-            switch self {
-            case .invalidBaseURL:
-                return try BaseURL(host: "/alaskaair/")
-            default:
-                return try BaseURL(host: "api.alaskaair.net")
-            }
-        }
-
-        func path() throws(AtomError) -> URLPath {
-            switch self {
-            case .invalidURLPath:
-                return try URLPath("path")
-            default:
-                return try URLPath("/path/to/resource")
-            }
-        }
     }
 }

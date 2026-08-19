@@ -50,7 +50,7 @@ public protocol Requestable: Sendable {
     /// func baseURL() throws(AtomError) -> BaseURL {
     ///     try BaseURL(host: "api.alaskaair.net")
     /// }
-    /// ````
+    /// ```
     /// In the event that provided URL host fails validation, the client will be notified
     /// at the time of a network call by receiving `RequestableError.invalidBaseURL` error.
     func baseURL() throws(AtomError) -> BaseURL
@@ -63,7 +63,7 @@ public protocol Requestable: Sendable {
     /// func path() throws(AtomError) -> URLPath {
     ///     try URLPath("/path/to/resource")
     /// }
-    /// ````
+    /// ```
     /// In the event when provided URL path fails validation, the client will be notified
     /// at the time of a network call by receiving `RequestableError.invalidURLPath` error.
     func path() throws(AtomError) -> URLPath

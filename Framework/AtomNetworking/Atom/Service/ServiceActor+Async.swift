@@ -36,7 +36,7 @@ extension ServiceActor {
     /// - Returns: The decoded model of type `T`.
     /// - Throws:  `AtomError` on failure (e.g., network errors or decoding issues).
     func resume<T: Model>(for requestable: any Requestable, expecting type: T.Type, decoder: JSONDecoder? = nil) async throws(AtomError) -> T {
-        let response = try await deduplicatedResponse(for: requestable)
+        let response = try await pluggedResponse(for: requestable)
 
         guard let value = response.data as? T else {
             return try (decoder ?? serviceConfiguration.decoder).decode(type: type, from: response.data)
@@ -58,6 +58,6 @@ extension ServiceActor {
     /// - Returns: The raw `AtomResponse`.
     /// - Throws:  `AtomError` on failure (e.g., network errors).
     func resume(for requestable: any Requestable) async throws(AtomError) -> AtomResponse {
-        try await deduplicatedResponse(for: requestable)
+        try await pluggedResponse(for: requestable)
     }
 }

@@ -22,7 +22,7 @@ import XCTest
 final class AuthorizedRequestableTests: XCTestCase {
     func testInitializeFromRequestableMapsRequestableProperties() throws {
         // Given
-        let endpoint: Endpoint = .init()
+        let endpoint: AuthorizedRequestableEndpoint = .init()
         let method: AuthenticationMethod = .basic(.init(password: "password", username: "username"))
         let expectedHeaderItems = [method.authorizationHeaderItem] + [.init(name: "name", value: "value")]
         let sortedExpectedHeaderItems = expectedHeaderItems.sorted { $0.name < $1.name }
@@ -38,37 +38,5 @@ final class AuthorizedRequestableTests: XCTestCase {
         XCTAssertEqual(endpoint.requiresAuthorization, authorizedRequestable.requiresAuthorization)
         XCTAssertEqual(try endpoint.baseURL(), try authorizedRequestable.baseURL())
         XCTAssertEqual(try endpoint.path(), try authorizedRequestable.path())
-    }
-}
-
-// MARK: - AuthorizedRequestableTests.Endpoint
-
-extension AuthorizedRequestableTests {
-    private struct Endpoint: Requestable {
-        // MARK: - Computed Properties
-
-        var headerItems: [HeaderItem]? {
-            [.init(name: "name", value: "value")]
-        }
-
-        var method: HTTPMethod { .get }
-
-        var queryItems: [QueryItem]? {
-            [.init(name: "name", value: "value")]
-        }
-
-        var requiresAuthorization: Bool {
-            true
-        }
-
-        // MARK: - Functions
-
-        func baseURL() throws(AtomError) -> BaseURL {
-            try .init(host: "api.alaskaair.com")
-        }
-
-        func path() throws(AtomError) -> URLPath {
-            try .init("/path")
-        }
     }
 }

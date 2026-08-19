@@ -33,4 +33,16 @@ final class HTTPMethodTests: XCTestCase {
         XCTAssertEqual(HTTPMethod.post(.init()).stringValue, post)
         XCTAssertEqual(HTTPMethod.put(.init()).stringValue, put)
     }
+
+    func testHTTPMethodReturnsExpectedBody() {
+        // Given, When
+        let body: Data = .init("body".utf8)
+
+        // Then
+        XCTAssertNil(HTTPMethod.delete.body)
+        XCTAssertNil(HTTPMethod.get.body)
+        XCTAssertEqual(HTTPMethod.patch(body).body, body)
+        XCTAssertEqual(HTTPMethod.post(body).body, body)
+        XCTAssertEqual(HTTPMethod.put(body).body, body)
+    }
 }

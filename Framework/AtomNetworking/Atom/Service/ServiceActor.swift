@@ -64,15 +64,16 @@ actor ServiceActor: Sendable {
 
     /// Creates a new `ServiceActor` with the provided configuration.
     ///
-    /// The actor initializes its own `URLSession`, decoder, and queue manager.
+    /// The actor initializes its own decoder and queue manager.
     ///
     /// - Parameters:
     ///   - serviceConfiguration: Configuration used for request execution and authentication.
-    init(serviceConfiguration: ServiceConfiguration) {
+    ///   - session:              A session to execute network requests with. Omit (or pass `nil`) to build one from `serviceConfiguration`.
+    init(serviceConfiguration: ServiceConfiguration, session: URLSession? = nil) {
         self.requestableQueueManager = RequestableQueueManager()
         self.serviceConfiguration = serviceConfiguration
         self.credentialDecoder = JSONDecoder()
-        self.session = URLSession(
+        self.session = session ?? URLSession(
             configuration: serviceConfiguration.sessionConfiguration,
             delegate: Interceptor(for: .network, isEnabled: serviceConfiguration.isLogEnabled),
             delegateQueue: nil

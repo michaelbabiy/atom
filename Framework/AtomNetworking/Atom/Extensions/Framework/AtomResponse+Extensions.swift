@@ -46,10 +46,13 @@ extension AtomResponse {
 
     /// Creates a `AtomResponse` instance given the provided parameter(s).
     ///
+    /// This is the initializer a plugin uses to answer a request itself rather than passing it to `next`.
+    ///
     /// - Parameters:
+    ///   - data:       The data returned by the server. Defaults to empty.
     ///   - statusCode: The response’s HTTP status code.
-    init(statusCode: Int) {
-        self.data = .init()
+    public init(data: Data = .init(), statusCode: Int) {
+        self.data = data
         self.httpResponse = .init(statusCode: statusCode)
     }
 }
