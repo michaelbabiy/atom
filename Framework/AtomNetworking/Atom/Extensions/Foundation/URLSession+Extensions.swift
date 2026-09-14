@@ -60,6 +60,11 @@ extension URLSession {
             throw error
 
         } catch {
+            // A request lost to being offline is reported as its own case rather than as a generic transport failure.
+            guard (error as NSError).code != NSURLErrorNotConnectedToInternet else {
+                throw .connectivity(ConnectivityError(reason: .transport, underlyingError: error))
+            }
+
             // Creates and throws an AtomError with the URLSession error.
             throw .session(error)
         }

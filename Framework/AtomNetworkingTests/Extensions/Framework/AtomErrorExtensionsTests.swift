@@ -26,6 +26,30 @@ final class AtomErrorExtensionsTests: XCTestCase {
         XCTAssertTrue(error.isAuthorizationFailure)
     }
 
+    func testIsBadRequestIsTrueOnlyForAFourHundredResponse() {
+        // Given, When
+        let badRequest: AtomError = .response(AtomResponse(statusCode: 400))
+        let unauthorized: AtomError = .response(AtomResponse(statusCode: 401))
+
+        // Then
+        XCTAssertTrue(badRequest.isBadRequest)
+        XCTAssertFalse(unauthorized.isBadRequest)
+        XCTAssertFalse(AtomError.unexpected.isBadRequest)
+    }
+
+    func testIsOfflineIsTrueOnlyForConnectivity() {
+        // Given, When
+        let gated: AtomError = .connectivity(ConnectivityError(reason: .gated))
+        let transport: AtomError = .connectivity(ConnectivityError(reason: .transport))
+        let session: AtomError = .session(URLError(.notConnectedToInternet))
+
+        // Then
+        XCTAssertTrue(gated.isOffline)
+        XCTAssertTrue(transport.isOffline)
+        XCTAssertFalse(session.isOffline)
+        XCTAssertFalse(AtomError.unexpected.isOffline)
+    }
+
     func testDataDecodeIfPresentErrorData() throws {
         // Given
         let json = ["key": "value"]

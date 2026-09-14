@@ -40,6 +40,22 @@ extension AtomError {
         return response.statusCode == 400
     }
 
+    /// Convenience variable for returning a `Bool` indicating whether the error is due to the device having no usable network path.
+    ///
+    /// This is `true` in both of the ways a request can be lost to being offline, whether a configured
+    /// `ConnectivityPlugin` refused it before sending or `URLSession` failed it with
+    /// `NSURLErrorNotConnectedToInternet`. Which of the two happens is a matter of timing rather than of
+    /// anything the client did, so a client showing an offline state does not have to care.
+    ///
+    /// Matching `case .connectivity` does the same job and gives access to the reason.
+    public var isOffline: Bool {
+        guard case .connectivity = self else {
+            return false
+        }
+
+        return true
+    }
+
     /// Convenience method for decoding error object or message returned by the service.
     ///
     /// JSON decoder with the default formatting settings and decoding strategies will be used.
@@ -67,6 +83,8 @@ extension AtomError {
 extension AtomError: StringConvertible {
     var stringValue: String {
         switch self {
+        case .connectivity:
+            return "connectivity"
         case .decoder:
             return "decoder"
         case .requestable:
@@ -86,6 +104,8 @@ extension AtomError: StringConvertible {
 extension AtomError: CustomStringConvertible {
     public var description: String {
         switch self {
+        case let .connectivity(error):
+            return "🧨 ConnectivityPlugin or URLSession could not establish a usable internet connection. 💥 Error: \(error)"
         case let .decoder(error):
             return "🧨 JSONDecoder failed to decode the response. This is usually due to a mismatch between the response and the expected type. 💥 Error: \(error)"
         case let .requestable(error):

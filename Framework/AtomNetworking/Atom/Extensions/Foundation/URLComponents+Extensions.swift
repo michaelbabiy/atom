@@ -24,10 +24,12 @@ extension URLComponents {
     /// - Parameters:
     ///   - baseURLString: The `Requestable` base URL string value.
     ///   - path:          The `Requestable` path string value.
-    ///   - queryItems:    The `Requestable` queryItems.
+    ///   - queryItems:    The `Requestable` queryItems. An empty array is treated the same as `nil`.
     init?(baseURLString: String, path: String, queryItems: [QueryItem]? = nil) {
         self.init(string: baseURLString)
         self.path = path
-        self.queryItems = queryItems?.compactMap { URLQueryItem(name: $0.name, value: $0.value) }
+        self.queryItems = queryItems.flatMap { items in
+            items.isEmpty ? nil : items.compactMap { URLQueryItem(name: $0.name, value: $0.value) }
+        }
     }
 }

@@ -36,6 +36,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Actors/PathMonitor.html">PathMonitor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -93,10 +101,16 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AtomPlugin.html">AtomPlugin</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/BasicCredentialConvertible.html">BasicCredentialConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ClientCredentialConvertible.html">ClientCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols.html#/s:14AtomNetworking5ModelP">Model</a>
@@ -134,7 +148,28 @@
                 <a href="Structs/ClientCredential.html">ClientCredential</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/ConnectivityError.html">ConnectivityError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivityError/Reason.html">– Reason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot.html">ConnectivitySnapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot/Interface.html">– Interface</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/HeaderItem.html">HeaderItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/NextHandler.html">NextHandler</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/QueryItem.html">QueryItem</a>
@@ -187,6 +222,66 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Atom</span> <span class="p">:</span> <span class="kt">Sendable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/ConnectivityError"></a>
+                <a name="//apple_ref/swift/Section/ConnectivityError" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ConnectivityError"></a>
+                  <h3 class="section-name"><span>ConnectivityError</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking17ConnectivityErrorV"></a>
+                    <a name="//apple_ref/swift/Struct/ConnectivityError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking17ConnectivityErrorV">ConnectivityError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The error describing a request that could not be sent because the device is offline.</p>
+
+<p>This arrives as <code>AtomError.connectivity</code>, which is raised in two situations. A configured
+<code><a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code> refused the request before it was sent, or the transport failed with
+<code>NSURLErrorNotConnectedToInternet</code>. Both read as offline to a client, so either one can be handled by
+matching a single case rather than by inspecting error codes. This does not catch every offline failure.
+Timeouts and DNS failures stay in <code>AtomError.session</code>.</p>
+<pre class="highlight swift"><code><span class="k">do</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">trips</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">atom</span><span class="o">.</span><span class="nf">enqueue</span><span class="p">(</span><span class="kt">TripsEndpoint</span><span class="p">())</span><span class="o">.</span><span class="nf">resume</span><span class="p">(</span><span class="nv">expecting</span><span class="p">:</span> <span class="kt">Trips</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="o">.</span><span class="n">connectivity</span> <span class="p">{</span>
+    <span class="nf">presentOfflineBanner</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nf">presentGenericFailure</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><code>reason</code> tells the two ways of being offline apart. Most clients can ignore it, since both mean the same
+thing to a person looking at the screen. It matters when logging, because only one of the two is a decision
+Atom made.</p>
+
+                        <a href="Structs/ConnectivityError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ConnectivityError</span> <span class="p">:</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">Sendable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ConnectivityError</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
@@ -393,6 +488,53 @@ See <a href="https://tools.ietf.org/html/RFC6749">https://tools.ietf.org/html/RF
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/ConnectivitySnapshot"></a>
+                <a name="//apple_ref/swift/Section/ConnectivitySnapshot" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ConnectivitySnapshot"></a>
+                  <h3 class="section-name"><span>ConnectivitySnapshot</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking20ConnectivitySnapshotV"></a>
+                    <a name="//apple_ref/swift/Struct/ConnectivitySnapshot" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking20ConnectivitySnapshotV">ConnectivitySnapshot</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A point in time reading of the device&rsquo;s network path.</p>
+
+<p>A snapshot pairs the current <code>status</code> with the moment that status was last <em>entered</em>. The pairing is what
+makes debounced gating possible: knowing the path is unsatisfied is not enough, since a handoff between
+Wi-Fi and cellular briefly reports exactly that. Knowing it has <em>stayed</em> unsatisfied is enough.</p>
+
+<p>For more information, see <code><a href="Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a></code> and <code><a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code>.</p>
+
+                        <a href="Structs/ConnectivitySnapshot.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ConnectivitySnapshot</span> <span class="p">:</span> <span class="kt">Sendable</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -507,10 +649,124 @@ See <a href="https://tools.ietf.org/html/RFC6749">https://tools.ietf.org/html/RF
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/NextHandler"></a>
+                <a name="//apple_ref/swift/Section/NextHandler" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/NextHandler"></a>
+                  <h3 class="section-name"><span>NextHandler</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking11NextHandlerV"></a>
+                    <a name="//apple_ref/swift/Struct/NextHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking11NextHandlerV">NextHandler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The handler a plugin calls to hand a request to the rest of the pipeline.</p>
+
+<p>Calling this runs every remaining plugin, then de-duplication, authorization, and finally the transport. A
+plugin that returns without calling it has short circuited the request.</p>
+
+<p>This is a type rather than a closure alias on purpose. Typed throws in a <em>function type</em> requires iOS 18
+runtime support, and the library targets iOS 17. Wrapping an untyped closure and restoring the typed
+error at the call boundary keeps <code>throws(AtomError)</code> on the API without raising the deployment target, the
+same trick <code>Task.typedValue()</code> and <code>withAtomCheckedContinuation</code> already use.</p>
+
+                        <a href="Structs/NextHandler.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">NextHandler</span> <span class="p">:</span> <span class="kt">Sendable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/ConnectivityPlugin"></a>
+                <a name="//apple_ref/swift/Section/ConnectivityPlugin" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ConnectivityPlugin"></a>
+                  <h3 class="section-name"><span>ConnectivityPlugin</span>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking18ConnectivityPluginV"></a>
+                    <a name="//apple_ref/swift/Struct/ConnectivityPlugin" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking18ConnectivityPluginV">ConnectivityPlugin</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A plugin that refuses a request when the device has settled into having no usable network path.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">atom</span> <span class="o">=</span> <span class="kt">Atom</span><span class="p">(</span>
+    <span class="nv">serviceConfiguration</span><span class="p">:</span> <span class="kt">ServiceConfiguration</span><span class="p">(</span>
+        <span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span><span class="kt">ConnectivityPlugin</span><span class="p">()]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre>
+
+<p>The refusal arrives as <code>AtomError.connectivity</code> carrying a <code><a href="Structs/ConnectivityError.html">ConnectivityError</a></code> with a reason of <code>.gated</code>.
+A client that only wants to know whether the device is offline does not have to distinguish it from a
+transport level failure, since both arrive as the same case.</p>
+<h2 id='why-we-don-39-t-simply-check-the-network-first' class='heading'>Why we don&rsquo;t simply check the network first?</h2>
+
+<p>A device being connected to Wi-Fi or cellular doesn&rsquo;t mean the request will actually work.
+For example, a captive Wi-Fi portal or a VPN can show that the network is connected while requests still fail.
+So the plugin only blocks a request when the system tells us there is no network route at all. If a route exists, we
+let the request proceed and see what happens.</p>
+<h2 id='why-we-wait-before-blocking' class='heading'>Why we wait before blocking</h2>
+
+<p>Network connections can briefly disappear when switching from Wi-Fi to cellular.
+If we blocked the request immediately, we&rsquo;d sometimes report that the device is offline when it&rsquo;s actually
+just switching connections. So we wait until the network has been unavailable for settlingInterval before blocking the request.</p>
+
+<p>Because plugins run outside de-duplication and authorization, a refusal here never wakes a token refresh.</p>
+
+                        <a href="Structs/ConnectivityPlugin.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ConnectivityPlugin</span> <span class="p">:</span> <span class="kt"><a href="Protocols/AtomPlugin.html">AtomPlugin</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-08-03)</p>
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-09-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

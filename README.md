@@ -2,27 +2,33 @@
 
 The lightweight & delightful networking library.
 
-Atom is a wrapper library built around a subset of features offered by `URLSession` with added ability to decode data into models, handle access token refresh and authorization headers on behalf of the client, and more. It takes advantage of Swift features such as default implementation for protocols, generics and `Decodable` to make it extremely easy to integrate and use in an existing project. Atom offers support for any endpoint, a much stricter URL host and path validation, comprehensive [documentation](https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) and an example application to eliminate any guesswork.
+Atom is a wrapper library built around a subset of features offered by `URLSession` with added ability to decode data into models, handle access token refresh and authorization headers on behalf of the client, and more. It takes advantage of Swift features such as default implementation for protocols, generics and `Decodable` to make it extremely easy to integrate and use in an existing project. Atom offers support for any endpoint, a much stricter URL host and path validation, comprehensive [documentation](https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) and an example application to eliminate any guesswork.
 
 
 ## Features
 - [x] Simple to setup, easy to use & efficient
 - [x] Supports any endpoint
-- [x] Supports Combine publishers
 - [x] Supports Multipath TCP configuration
 - [x] Handles object decoding from data returned by the service
 - [x] Handles token refresh
 - [x] De-duplicates identical in-flight GET requests
+- [x] Supports composable plugins wrapped around request execution
+- [x] Fails fast, with a typed error, when the device has no network path, once `ConnectivityPlugin` is installed
 - [x] Handles and applies authorization headers on behalf of the client
 - [x] Handles URL host validation
 - [x] Handles URL path validation
-- [x] Complete [Documentation](https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html)
+- [x] Complete [Documentation](https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html)
 
 
 ## Requirements
-* iOS 16.0+
+* iOS 17.0+
 * Xcode 16.0+
 * Swift 6.0+
+
+
+## Migrating to 5.0
+
+Atom 5.0 raises the deployment target to iOS 17 and reports being offline as its own `AtomError` case. Both are breaking changes. See [the Atom 4.x to 5.0 migration guide](Migrations/001-v4-to-v5.md) for what changed and what to do about it.
 
 
 ## Installation
@@ -51,7 +57,7 @@ In the above example, the default configuration will be used. This configuration
 When using async/await APIs, Atom will return results on the same thread where `URLSession` returns data. You are empowered to use custom actors or apply the `@MainActor` attribute to a function or an entire type (e.g., `ViewModel`) to ensure operations run on the main thread.
 
 
-Any endpoint needs to conform and implement `Requestable` protocol. The `Requestable ` protocol provides default implementation for all of its properties - except for the `func baseURL() throws(AtomError) -> BaseURL`. See [documentation](https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) for more information.
+Any endpoint needs to conform and implement `Requestable` protocol. The `Requestable ` protocol provides default implementation for all of its properties - except for the `func baseURL() throws(AtomError) -> BaseURL`. See [documentation](https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) for more information.
 
 ```swift
 extension Seatmap {
@@ -76,7 +82,7 @@ let seatmap = try await atom.enqueue(Endpoint.refresh).resume(expecting: Seatmap
 
 The above example demonstrates how to use `resume(expecting:)` function to get a fully decoded `Seatmap` model object.
 
-For more information, please see [documentation](https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html).
+For more information, please see [documentation](https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html).
 
 ### Request de-duplication
 
@@ -101,6 +107,81 @@ extension Seatmap {
 ```
 
 Requests are matched on their HTTP method and fully-resolved URL - including query items, but ignoring the `Authorization` header. De-duplication therefore behaves the same across every authentication method.
+
+### Plugins
+
+A plugin wraps request execution. It receives the request and a `next` handler, and may inspect or replace the request, refuse it outright, or reclassify whatever comes back. Plugins run in the order they are listed, the first one outermost, and they run outside de-duplication and authorization, so a plugin that refuses a request never wakes a token refresh.
+
+No plugins are installed by default. Add one to the configuration:
+
+```swift
+let atom = Atom(
+    serviceConfiguration: ServiceConfiguration(plugins: [ConnectivityPlugin()])
+)
+```
+
+#### Connectivity
+
+`ConnectivityPlugin` refuses a request once the device has settled into having no usable network path. An offline app then fails in milliseconds with a typed error, instead of waiting out a transport timeout.
+
+```swift
+do {
+    let seatmap = try await atom.enqueue(Endpoint.refresh).resume(expecting: Seatmap.self)
+} catch .connectivity {
+    presentOfflineBanner()
+} catch {
+    presentGenericFailure()
+}
+```
+
+Two rules keep the plugin from refusing a request it should have sent.
+
+* A path Atom cannot confidently classify always allows the call. A monitor that has not reported yet never gates.
+* A path must stay unsatisfied for a settling window, three seconds by default, before anything is refused. A Wi-Fi to cellular handoff briefly reports an unsatisfied path on a perfectly healthy device. That transient runs to roughly two seconds. A window that is too long only means the first few seconds of a real outage fail at the transport, the way version 4 did. A window that is too short tells a connected user they have no network, which is the worse answer.
+
+A satisfied path is never treated as permission. Captive portals and split tunnel VPNs report one while every request fails, so the plugin only ever acts on the reliable signal, which is the absence of a route.
+
+The default monitor is `PathMonitor`, built on `NWPathMonitor`. It starts on the first request rather than at initialization. If your app already owns a monitor, conform it to `ConnectivityMonitoring` and pass it in, so the process does not run two:
+
+```swift
+ConnectivityPlugin(monitor: AppNetworkMonitor())
+```
+
+#### Writing your own
+
+Conform to `AtomPlugin` and implement one function:
+
+```swift
+struct LoggingPlugin: AtomPlugin {
+    func send(_ requestable: any Requestable, next: NextHandler) async throws(AtomError) -> AtomResponse {
+        let started = ContinuousClock().now
+
+        defer {
+            print("\(requestable) took \(started.duration(to: ContinuousClock().now))")
+        }
+
+        return try await next(requestable)
+    }
+}
+```
+
+Calling `next` runs the rest of the pipeline. Returning or throwing without calling it short circuits the request.
+
+A plugin may also answer a request itself, the way a cache would, by returning its own `AtomResponse`:
+
+```swift
+struct CachePlugin: AtomPlugin {
+    func send(_ requestable: any Requestable, next: NextHandler) async throws(AtomError) -> AtomResponse {
+        if let cached = cache.data(for: requestable) {
+            return AtomResponse(data: cached, statusCode: 200)
+        }
+
+        return try await next(requestable)
+    }
+}
+```
+
+A plugin that answers a request short circuits everything below it, so de-duplication, authorization and the transport never run for that call.
 
 ### Authentication
 
@@ -163,7 +244,7 @@ Once configured, Atom will combine username and password into a single string `u
 You can configure Atom to apply `Bearer ` authorization header. Here is an example:
 
 ```swift
-actor TokenManager: TokenCredentialWritable {
+final class TokenManager: TokenCredentialWritable {
     var tokenCredential: TokenCredential {
     	// Read values from the keychain.
         get { keychain.tokenCredential() }
@@ -173,8 +254,8 @@ actor TokenManager: TokenCredentialWritable {
     }
 }
 
-let atom: Atom = {
-    let endpoint = AuthorizationEndpoint(host: "api.alaskaair.net", path: "/oauth2")
+func makeAtom() throws -> Atom {
+    let endpoint = try AuthorizationEndpoint(host: "api.alaskaair.net", path: "/oauth2")
     let clientCredential = ClientCredential(id: "client-id", secret: "client-secret")
     let tokenManager = TokenManager()
 
@@ -182,7 +263,7 @@ let atom: Atom = {
     let configuration = ServiceConfiguration(authenticationMethod: bearer)
 
     return Atom(serviceConfiguration: configuration)
-}()
+}
 ```
 
 The setup is hopefully easy to understand. Atom requires a few pieces of information from the client:
@@ -207,9 +288,9 @@ Also, Atom will only decode token credential from a JSON objecting returned in t
 
 The above response is in accordance with [RFC 6749, section 1.5](https://tools.ietf.org/html/rfc6749#section-1.5).
 
-**NOTE:** In a high-throughput scenario where the client enqueues a large number of network calls, it’s best practice to adjust the token’s expiration time to account for the service timeout. If your `ServiceTimeout` is set to the default of 30 seconds, configure `TokenWritable` to subtract those 30 seconds from the token’s expiration time. This ensures every enqueued call has at least 30 seconds to complete before the token expires.
+**NOTE:** In a high-throughput scenario where the client enqueues a large number of network calls, it’s best practice to adjust the token’s expiration time to account for the service timeout. If your `ServiceTimeout` is set to the default of 30 seconds, configure `TokenCredentialWritable` to subtract those 30 seconds from the token’s expiration time. This ensures every enqueued call has at least 30 seconds to complete before the token expires.
 
-For more information and Atom usage example, please see [documentation](https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) and the provided Example application.
+For more information and Atom usage example, please see [documentation](https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html) and the provided Example application.
 
 ## Communication
 * If you found a bug, open an issue.

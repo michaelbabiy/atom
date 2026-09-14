@@ -38,6 +38,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="../Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Actors/PathMonitor.html">PathMonitor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -95,10 +103,16 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AtomPlugin.html">AtomPlugin</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/BasicCredentialConvertible.html">BasicCredentialConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ClientCredentialConvertible.html">ClientCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a>
@@ -136,7 +150,28 @@
                 <a href="../Structs/ClientCredential.html">ClientCredential</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError.html">ConnectivityError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError/Reason.html">– Reason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityPlugin.html">ConnectivityPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot.html">ConnectivitySnapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Interface.html">– Interface</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/HeaderItem.html">HeaderItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NextHandler.html">NextHandler</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/QueryItem.html">QueryItem</a>
@@ -164,8 +199,7 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">@frozen</span>
-<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AtomError</span> <span class="p">:</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">Sendable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AtomError</span> <span class="p">:</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">Sendable</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">AtomError</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                 </div>
@@ -176,6 +210,43 @@
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AtomNetworking0A5ErrorO12connectivityyAcA012ConnectivityC0VcACmF"></a>
+                    <a name="//apple_ref/swift/Element/connectivity(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking0A5ErrorO12connectivityyAcA012ConnectivityC0VcACmF">connectivity(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The request could not be sent because the device is offline.</p>
+
+<p>This is raised in two situations. A configured <code><a href="../Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code> refused the request before it was
+sent, or the transport failed with <code>NSURLErrorNotConnectedToInternet</code>. <code><a href="../Structs/ConnectivityError.html#/s:14AtomNetworking17ConnectivityErrorV6reasonAC6ReasonOvp">ConnectivityError.reason</a></code> tells
+the two apart.</p>
+
+<p>Those are the only two situations Atom can attribute to being offline with confidence. Other failures
+can also mean the network was unreachable, a DNS failure or a timeout for example, and those stay in
+<code>.session</code>.</p>
+
+<p>For more information, see <code><a href="../Structs/ConnectivityError.html">ConnectivityError</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">connectivity</span><span class="p">(</span><span class="kt"><a href="../Structs/ConnectivityError.html">ConnectivityError</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -276,6 +347,10 @@ context of ACE Group, <code>data</code> will contain the error message or the mo
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>URLSession failed with error.</p>
+
+<p>Note: Only <code>NSURLErrorNotConnectedToInternet</code> is reclassified as <code>.connectivity</code>. Other transport
+failures stay here, including timeouts and DNS failures, and any of those can also mean the device
+was offline.</p>
 
                       </div>
                       <div class="declaration">
@@ -389,6 +464,40 @@ malformed requests, or other client errors.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:14AtomNetworking0A5ErrorO9isOfflineSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isOffline" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking0A5ErrorO9isOfflineSbvp">isOffline</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience variable for returning a <code>Bool</code> indicating whether the error is due to the device having no usable network path.</p>
+
+<p>This is <code>true</code> in both of the ways a request can be lost to being offline, whether a configured
+<code><a href="../Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code> refused it before sending or <code>URLSession</code> failed it with
+<code>NSURLErrorNotConnectedToInternet</code>. Which of the two happens is a matter of timing rather than of
+anything the client did, so a client showing an offline state does not have to care.</p>
+
+<p>Matching <code>case .connectivity</code> does the same job and gives access to the reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isOffline</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:14AtomNetworking0A5ErrorO15decodeIfPresent2asxSgxm_tKSeRzlF"></a>
                     <a name="//apple_ref/swift/Method/decodeIfPresent(as:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:14AtomNetworking0A5ErrorO15decodeIfPresent2asxSgxm_tKSeRzlF">decodeIfPresent(as:<wbr>)</a>
@@ -482,7 +591,7 @@ malformed requests, or other client errors.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-08-03)</p>
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-09-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

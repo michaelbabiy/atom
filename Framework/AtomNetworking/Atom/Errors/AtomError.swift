@@ -17,8 +17,20 @@
 import Foundation
 
 /// List of all possible error cases thrown by `Atom` framework.
-@frozen
 public enum AtomError: Error, Sendable {
+    /// The request could not be sent because the device is offline.
+    ///
+    /// This is raised in two situations. A configured `ConnectivityPlugin` refused the request before it was
+    /// sent, or the transport failed with `NSURLErrorNotConnectedToInternet`. `ConnectivityError.reason` tells
+    /// the two apart.
+    ///
+    /// Those are the only two situations Atom can attribute to being offline with confidence. Other failures
+    /// can also mean the network was unreachable, a DNS failure or a timeout for example, and those stay in
+    /// `.session`.
+    ///
+    /// For more information, see `ConnectivityError`.
+    case connectivity(ConnectivityError)
+
     /// Decoder failed to decode data.
     case decoder(DecodingError)
 
@@ -34,6 +46,10 @@ public enum AtomError: Error, Sendable {
     case response(AtomResponse)
 
     /// URLSession failed with error.
+    ///
+    /// Note: Only `NSURLErrorNotConnectedToInternet` is reclassified as `.connectivity`. Other transport
+    /// failures stay here, including timeouts and DNS failures, and any of those can also mean the device
+    /// was offline.
     case session(Error)
 
     /// Unexpected, logic error.

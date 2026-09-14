@@ -25,7 +25,7 @@ import Foundation
 /// Proper configuration requires that the client conform and implement `TokenCredentialWritable` protocol where the conforming type is a class.
 ///
 /// ```swift
-/// actor SSOManager: TokenCredentialWritable {
+/// final class SSOManager: TokenCredentialWritable {
 ///     var tokenCredential: TokenCredential {
 ///         get { keychain.value() }
 ///         set { keychain.save(newValue) }

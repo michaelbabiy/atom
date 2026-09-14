@@ -30,7 +30,7 @@ extension URLPath {
     /// provide default implementation for the `Requestable.path()` method.
     ///
     /// ```swift
-    /// func path() throws -> URLPath {
+    /// func path() throws(AtomError) -> URLPath {
     ///     return URLPath.default
     /// }
     /// ```

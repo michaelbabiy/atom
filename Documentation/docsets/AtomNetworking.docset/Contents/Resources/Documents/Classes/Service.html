@@ -38,6 +38,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="../Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Actors/PathMonitor.html">PathMonitor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -95,10 +103,16 @@
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols/AtomPlugin.html">AtomPlugin</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/BasicCredentialConvertible.html">BasicCredentialConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ClientCredentialConvertible.html">ClientCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a>
@@ -136,7 +150,28 @@
                 <a href="../Structs/ClientCredential.html">ClientCredential</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError.html">ConnectivityError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityError/Reason.html">– Reason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivityPlugin.html">ConnectivityPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot.html">ConnectivitySnapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ConnectivitySnapshot/Interface.html">– Interface</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/HeaderItem.html">HeaderItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/NextHandler.html">NextHandler</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/QueryItem.html">QueryItem</a>
@@ -213,9 +248,9 @@ anything until one of the <code>resume(...)</code> methods is called.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14AtomNetworking7ServiceC6resume9expectingxxm_tYaAA0A5ErrorOYKAA5ModelRzlF"></a>
-                    <a name="//apple_ref/swift/Method/resume(expecting:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AtomNetworking7ServiceC6resume9expectingxxm_tYaAA0A5ErrorOYKAA5ModelRzlF">resume(expecting:<wbr>)</a>
+                    <a name="/s:14AtomNetworking7ServiceC6resume9expecting7decoderxxm_10Foundation11JSONDecoderCSgtYaAA0A5ErrorOYKAA5ModelRzlF"></a>
+                    <a name="//apple_ref/swift/Method/resume(expecting:decoder:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking7ServiceC6resume9expecting7decoderxxm_10Foundation11JSONDecoderCSgtYaAA0A5ErrorOYKAA5ModelRzlF">resume(expecting:<wbr>decoder:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -236,7 +271,7 @@ occurs and all concurrent callers wait for it.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">resume</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expecting</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">)</span> <span class="k">async</span> <span class="nf">throws</span><span class="p">(</span><span class="kt"><a href="../Enums/AtomError.html">AtomError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">resume</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expecting</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">JSONDecoder</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">async</span> <span class="nf">throws</span><span class="p">(</span><span class="kt"><a href="../Enums/AtomError.html">AtomError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a></span></code></pre>
 
                         </div>
                       </div>
@@ -253,6 +288,18 @@ occurs and all concurrent callers wait for it.</p>
                               <td>
                                 <div>
                                   <p>The expected response model type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>decoder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional decoder to use for this call only. Omit (or pass <code>nil</code>) to use the service-configured decoder.</p>
                                 </div>
                               </td>
                             </tr>
@@ -303,9 +350,9 @@ occurs and all concurrent callers wait for it.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14AtomNetworking7ServiceC6resume9expecting10completionyxm_ys6ResultOyxAA0A5ErrorOGYbctAA5ModelRzlF"></a>
-                    <a name="//apple_ref/swift/Method/resume(expecting:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AtomNetworking7ServiceC6resume9expecting10completionyxm_ys6ResultOyxAA0A5ErrorOGYbctAA5ModelRzlF">resume(expecting:<wbr>completion:<wbr>)</a>
+                    <a name="/s:14AtomNetworking7ServiceC6resume9expecting7decoder10completionyxm_10Foundation11JSONDecoderCSgys6ResultOyxAA0A5ErrorOGYbctAA5ModelRzlF"></a>
+                    <a name="//apple_ref/swift/Method/resume(expecting:decoder:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AtomNetworking7ServiceC6resume9expecting7decoder10completionyxm_10Foundation11JSONDecoderCSgys6ResultOyxAA0A5ErrorOGYbctAA5ModelRzlF">resume(expecting:<wbr>decoder:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -323,7 +370,7 @@ behavior with async/await usage.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">resume</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expecting</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@Sendable</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt"><a href="../Enums/AtomError.html">AtomError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">resume</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">expecting</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">T</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">JSONDecoder</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@Sendable</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt"><a href="../Enums/AtomError.html">AtomError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:14AtomNetworking5ModelP">Model</a></span></code></pre>
 
                         </div>
                       </div>
@@ -340,6 +387,18 @@ behavior with async/await usage.</p>
                               <td>
                                 <div>
                                   <p>The expected response model type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>decoder</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional decoder to use for this call only. Omit (or pass <code>nil</code>) to use the service-configured decoder.</p>
                                 </div>
                               </td>
                             </tr>
@@ -412,7 +471,7 @@ behavior with async/await usage.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-08-03)</p>
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-09-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

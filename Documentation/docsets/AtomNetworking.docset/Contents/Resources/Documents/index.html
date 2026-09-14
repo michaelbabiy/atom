@@ -33,6 +33,14 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="Actors.html">Actors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Actors/PathMonitor.html">PathMonitor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -90,10 +98,16 @@
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols/AtomPlugin.html">AtomPlugin</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/BasicCredentialConvertible.html">BasicCredentialConvertible</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ClientCredentialConvertible.html">ClientCredentialConvertible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols.html#/s:14AtomNetworking5ModelP">Model</a>
@@ -131,7 +145,28 @@
                 <a href="Structs/ClientCredential.html">ClientCredential</a>
               </li>
               <li class="nav-group-task">
+                <a href="Structs/ConnectivityError.html">ConnectivityError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivityError/Reason.html">– Reason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot.html">ConnectivitySnapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot/Status.html">– Status</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ConnectivitySnapshot/Interface.html">– Interface</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Structs/HeaderItem.html">HeaderItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/NextHandler.html">NextHandler</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/QueryItem.html">QueryItem</a>
@@ -160,29 +195,33 @@
 
 <p>The lightweight &amp; delightful networking library.</p>
 
-<p>Atom is a wrapper library built around a subset of features offered by <code>URLSession</code> with added ability to decode data into models, handle access token refresh and authorization headers on behalf of the client, and more. It takes advantage of Swift features such as default implementation for protocols, generics and <code>Decodable</code> to make it extremely easy to integrate and use in an existing project. Atom offers support for any endpoint, a much stricter URL host and path validation, comprehensive <a href="https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> and an example application to eliminate any guesswork.</p>
+<p>Atom is a wrapper library built around a subset of features offered by <code>URLSession</code> with added ability to decode data into models, handle access token refresh and authorization headers on behalf of the client, and more. It takes advantage of Swift features such as default implementation for protocols, generics and <code>Decodable</code> to make it extremely easy to integrate and use in an existing project. Atom offers support for any endpoint, a much stricter URL host and path validation, comprehensive <a href="https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> and an example application to eliminate any guesswork.</p>
 <h2 id='features' class='heading'>Features</h2>
 
 <ul>
 <li>[x] Simple to setup, easy to use &amp; efficient</li>
 <li>[x] Supports any endpoint</li>
-<li>[x] Supports Combine publishers</li>
 <li>[x] Supports Multipath TCP configuration</li>
 <li>[x] Handles object decoding from data returned by the service</li>
 <li>[x] Handles token refresh</li>
 <li>[x] De-duplicates identical in-flight GET requests</li>
+<li>[x] Supports composable plugins wrapped around request execution</li>
+<li>[x] Fails fast, with a typed error, when the device has no network path, once <code><a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code> is installed</li>
 <li>[x] Handles and applies authorization headers on behalf of the client</li>
 <li>[x] Handles URL host validation</li>
 <li>[x] Handles URL path validation</li>
-<li>[x] Complete <a href="https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">Documentation</a></li>
+<li>[x] Complete <a href="https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">Documentation</a></li>
 </ul>
 <h2 id='requirements' class='heading'>Requirements</h2>
 
 <ul>
-<li>iOS 16.0+</li>
+<li>iOS 17.0+</li>
 <li>Xcode 16.0+</li>
 <li>Swift 6.0+</li>
 </ul>
+<h2 id='migrating-to-5-0' class='heading'>Migrating to 5.0</h2>
+
+<p>Atom 5.0 raises the deployment target to iOS 17 and reports being offline as its own <code><a href="Enums/AtomError.html">AtomError</a></code> case. Both are breaking changes. See <a href="Migrations/001-v4-to-v5.md">the Atom 4.x to 5.0 migration guide</a> for what changed and what to do about it.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 <h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
 
@@ -205,7 +244,7 @@
 
 <p>When using async/await APIs, Atom will return results on the same thread where <code>URLSession</code> returns data. You are empowered to use custom actors or apply the <code>@MainActor</code> attribute to a function or an entire type (e.g., <code>ViewModel</code>) to ensure operations run on the main thread.</p>
 
-<p>Any endpoint needs to conform and implement <code><a href="Protocols/Requestable.html">Requestable</a></code> protocol. The <code><a href="Protocols/Requestable.html">Requestable</a></code> protocol provides default implementation for all of its properties - except for the <code>func baseURL() throws(AtomError) -&gt; BaseURL</code>. See <a href="https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> for more information.</p>
+<p>Any endpoint needs to conform and implement <code><a href="Protocols/Requestable.html">Requestable</a></code> protocol. The <code><a href="Protocols/Requestable.html">Requestable</a></code> protocol provides default implementation for all of its properties - except for the <code>func baseURL() throws(AtomError) -&gt; BaseURL</code>. See <a href="https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> for more information.</p>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Seatmap</span> <span class="p">{</span>
     <span class="kd">enum</span> <span class="kt">Endpoint</span><span class="p">:</span> <span class="kt">Requestable</span> <span class="p">{</span>
         <span class="k">case</span> <span class="n">refresh</span>
@@ -226,7 +265,7 @@
 
 <p>The above example demonstrates how to use <code>resume(expecting:)</code> function to get a fully decoded <code>Seatmap</code> model object.</p>
 
-<p>For more information, please see <a href="https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a>.</p>
+<p>For more information, please see <a href="https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a>.</p>
 <h3 id='request-de-duplication' class='heading'>Request de-duplication</h3>
 
 <p>When several parts of your app ask for the same resource at once, Atom collapses those identical <code>GET</code> requests into a single network call. The first caller starts the request; any caller that arrives while it is still in flight waits for that same result instead of firing a second call. Every caller then receives the same response - or the same error, if it fails.</p>
@@ -248,6 +287,70 @@
 </code></pre>
 
 <p>Requests are matched on their HTTP method and fully-resolved URL - including query items, but ignoring the <code>Authorization</code> header. De-duplication therefore behaves the same across every authentication method.</p>
+<h3 id='plugins' class='heading'>Plugins</h3>
+
+<p>A plugin wraps request execution. It receives the request and a <code>next</code> handler, and may inspect or replace the request, refuse it outright, or reclassify whatever comes back. Plugins run in the order they are listed, the first one outermost, and they run outside de-duplication and authorization, so a plugin that refuses a request never wakes a token refresh.</p>
+
+<p>No plugins are installed by default. Add one to the configuration:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">atom</span> <span class="o">=</span> <span class="kt">Atom</span><span class="p">(</span>
+    <span class="nv">serviceConfiguration</span><span class="p">:</span> <span class="kt">ServiceConfiguration</span><span class="p">(</span><span class="nv">plugins</span><span class="p">:</span> <span class="p">[</span><span class="kt">ConnectivityPlugin</span><span class="p">()])</span>
+<span class="p">)</span>
+</code></pre>
+<h4 id='connectivity' class='heading'>Connectivity</h4>
+
+<p><code><a href="Structs/ConnectivityPlugin.html">ConnectivityPlugin</a></code> refuses a request once the device has settled into having no usable network path. An offline app then fails in milliseconds with a typed error, instead of waiting out a transport timeout.</p>
+<pre class="highlight swift"><code><span class="k">do</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">seatmap</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">atom</span><span class="o">.</span><span class="nf">enqueue</span><span class="p">(</span><span class="kt">Endpoint</span><span class="o">.</span><span class="n">refresh</span><span class="p">)</span><span class="o">.</span><span class="nf">resume</span><span class="p">(</span><span class="nv">expecting</span><span class="p">:</span> <span class="kt">Seatmap</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="o">.</span><span class="n">connectivity</span> <span class="p">{</span>
+    <span class="nf">presentOfflineBanner</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="nf">presentGenericFailure</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Two rules keep the plugin from refusing a request it should have sent.</p>
+
+<ul>
+<li>A path Atom cannot confidently classify always allows the call. A monitor that has not reported yet never gates.</li>
+<li>A path must stay unsatisfied for a settling window, three seconds by default, before anything is refused. A Wi-Fi to cellular handoff briefly reports an unsatisfied path on a perfectly healthy device. That transient runs to roughly two seconds. A window that is too long only means the first few seconds of a real outage fail at the transport, the way version 4 did. A window that is too short tells a connected user they have no network, which is the worse answer.</li>
+</ul>
+
+<p>A satisfied path is never treated as permission. Captive portals and split tunnel VPNs report one while every request fails, so the plugin only ever acts on the reliable signal, which is the absence of a route.</p>
+
+<p>The default monitor is <code><a href="Actors/PathMonitor.html">PathMonitor</a></code>, built on <code>NWPathMonitor</code>. It starts on the first request rather than at initialization. If your app already owns a monitor, conform it to <code><a href="Protocols/ConnectivityMonitoring.html">ConnectivityMonitoring</a></code> and pass it in, so the process does not run two:</p>
+<pre class="highlight swift"><code><span class="kt">ConnectivityPlugin</span><span class="p">(</span><span class="nv">monitor</span><span class="p">:</span> <span class="kt">AppNetworkMonitor</span><span class="p">())</span>
+</code></pre>
+<h4 id='writing-your-own' class='heading'>Writing your own</h4>
+
+<p>Conform to <code><a href="Protocols/AtomPlugin.html">AtomPlugin</a></code> and implement one function:</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">LoggingPlugin</span><span class="p">:</span> <span class="kt">AtomPlugin</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">requestable</span><span class="p">:</span> <span class="n">any</span> <span class="kt">Requestable</span><span class="p">,</span> <span class="nv">next</span><span class="p">:</span> <span class="kt">NextHandler</span><span class="p">)</span> <span class="k">async</span> <span class="nf">throws</span><span class="p">(</span><span class="kt">AtomError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AtomResponse</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">started</span> <span class="o">=</span> <span class="kt">ContinuousClock</span><span class="p">()</span><span class="o">.</span><span class="n">now</span>
+
+        <span class="k">defer</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">requestable</span><span class="se">)</span><span class="s"> took </span><span class="se">\(</span><span class="n">started</span><span class="o">.</span><span class="nf">duration</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">ContinuousClock</span><span class="p">()</span><span class="o">.</span><span class="n">now</span><span class="p">)</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">try</span> <span class="k">await</span> <span class="nf">next</span><span class="p">(</span><span class="n">requestable</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Calling <code>next</code> runs the rest of the pipeline. Returning or throwing without calling it short circuits the request.</p>
+
+<p>A plugin may also answer a request itself, the way a cache would, by returning its own <code><a href="Structs/AtomResponse.html">AtomResponse</a></code>:</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">CachePlugin</span><span class="p">:</span> <span class="kt">AtomPlugin</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">requestable</span><span class="p">:</span> <span class="n">any</span> <span class="kt">Requestable</span><span class="p">,</span> <span class="nv">next</span><span class="p">:</span> <span class="kt">NextHandler</span><span class="p">)</span> <span class="k">async</span> <span class="nf">throws</span><span class="p">(</span><span class="kt">AtomError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AtomResponse</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">cached</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">requestable</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">AtomResponse</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">cached</span><span class="p">,</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">try</span> <span class="k">await</span> <span class="nf">next</span><span class="p">(</span><span class="n">requestable</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>A plugin that answers a request short circuits everything below it, so de-duplication, authorization and the transport never run for that call.</p>
 <h3 id='authentication' class='heading'>Authentication</h3>
 
 <p>Atom can be configured to apply authorization headers on behalf of the client. It supports both <code>Basic</code> and <code>Bearer</code> authentication methods. When properly configured, Atom will automatically refresh tokens for the client if it determines that the access token has expired.</p>
@@ -302,7 +405,7 @@
 <h3 id='bearer' class='heading'>Bearer</h3>
 
 <p>You can configure Atom to apply <code>Bearer</code> authorization header. Here is an example:</p>
-<pre class="highlight swift"><code><span class="kd">actor</span> <span class="kt">TokenManager</span><span class="p">:</span> <span class="kt">TokenCredentialWritable</span> <span class="p">{</span>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">TokenManager</span><span class="p">:</span> <span class="kt">TokenCredentialWritable</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">tokenCredential</span><span class="p">:</span> <span class="kt">TokenCredential</span> <span class="p">{</span>
         <span class="c1">// Read values from the keychain.</span>
         <span class="k">get</span> <span class="p">{</span> <span class="n">keychain</span><span class="o">.</span><span class="nf">tokenCredential</span><span class="p">()</span> <span class="p">}</span>
@@ -312,8 +415,8 @@
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">let</span> <span class="nv">atom</span><span class="p">:</span> <span class="kt">Atom</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="kt">AuthorizationEndpoint</span><span class="p">(</span><span class="nv">host</span><span class="p">:</span> <span class="s">"api.alaskaair.net"</span><span class="p">,</span> <span class="nv">path</span><span class="p">:</span> <span class="s">"/oauth2"</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">makeAtom</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Atom</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">endpoint</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">AuthorizationEndpoint</span><span class="p">(</span><span class="nv">host</span><span class="p">:</span> <span class="s">"api.alaskaair.net"</span><span class="p">,</span> <span class="nv">path</span><span class="p">:</span> <span class="s">"/oauth2"</span><span class="p">)</span>
     <span class="k">let</span> <span class="nv">clientCredential</span> <span class="o">=</span> <span class="kt">ClientCredential</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="s">"client-id"</span><span class="p">,</span> <span class="nv">secret</span><span class="p">:</span> <span class="s">"client-secret"</span><span class="p">)</span>
     <span class="k">let</span> <span class="nv">tokenManager</span> <span class="o">=</span> <span class="kt">TokenManager</span><span class="p">()</span>
 
@@ -321,7 +424,7 @@
     <span class="k">let</span> <span class="nv">configuration</span> <span class="o">=</span> <span class="kt">ServiceConfiguration</span><span class="p">(</span><span class="nv">authenticationMethod</span><span class="p">:</span> <span class="n">bearer</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kt">Atom</span><span class="p">(</span><span class="nv">serviceConfiguration</span><span class="p">:</span> <span class="n">configuration</span><span class="p">)</span>
-<span class="p">}()</span>
+<span class="p">}</span>
 </code></pre>
 
 <p>The setup is hopefully easy to understand. Atom requires a few pieces of information from the client:</p>
@@ -346,9 +449,9 @@
 
 <p>The above response is in accordance with <a href="https://tools.ietf.org/html/rfc6749#section-1.5">RFC 6749, section 1.5</a>.</p>
 
-<p><strong>NOTE:</strong> In a high-throughput scenario where the client enqueues a large number of network calls, it’s best practice to adjust the token’s expiration time to account for the service timeout. If your <code><a href="Structs/ServiceTimeout.html">ServiceTimeout</a></code> is set to the default of 30 seconds, configure <code>TokenWritable</code> to subtract those 30 seconds from the token’s expiration time. This ensures every enqueued call has at least 30 seconds to complete before the token expires.</p>
+<p><strong>NOTE:</strong> In a high-throughput scenario where the client enqueues a large number of network calls, it’s best practice to adjust the token’s expiration time to account for the service timeout. If your <code><a href="Structs/ServiceTimeout.html">ServiceTimeout</a></code> is set to the default of 30 seconds, configure <code><a href="Protocols/TokenCredentialWritable.html">TokenCredentialWritable</a></code> to subtract those 30 seconds from the token’s expiration time. This ensures every enqueued call has at least 30 seconds to complete before the token expires.</p>
 
-<p>For more information and Atom usage example, please see <a href="https://htmlpreview.github.com/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> and the provided Example application.</p>
+<p>For more information and Atom usage example, please see <a href="https://htmlpreview.github.io/?https://github.com/AlaskaAirlines/atom/blob/master/Documentation/index.html">documentation</a> and the provided Example application.</p>
 <h2 id='communication' class='heading'>Communication</h2>
 
 <ul>
@@ -365,7 +468,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-08-03)</p>
+          <p>&copy; 2026 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2026-09-09)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

@@ -56,14 +56,21 @@ extension ServiceActor {
                         // Ensure the task reference is reset after completion or failure.
                         defer { refreshTask = nil }
 
-                        // Perform the actual token refresh and return the new credential.
-                        return try await refreshAccessToken(using: endpoint, credential: credential, writable: writable)
+                        // Perform the actual token refresh.
+                        let refreshed = try await refreshAccessToken(using: endpoint, credential: credential, writable: writable)
+
+                        // Store the new credential here, not in the awaiting caller. Store and clear the task reference
+                        // together without suspending, so no caller can see an expired credential with a nil task and start a
+                        // second refresh using a refresh token the first call already consumed.
+                        writable.tokenCredential = refreshed
+
+                        return refreshed
                     }
                 }
 
-                // Await the new Task's result and assign if successful, or throw on failure.
+                // Await the in-flight Task, which has already stored the new credential, or throw on failure.
                 if let refreshTask {
-                    writable.tokenCredential = try await refreshTask.typedValue()
+                    _ = try await refreshTask.typedValue()
                 }
             }
 

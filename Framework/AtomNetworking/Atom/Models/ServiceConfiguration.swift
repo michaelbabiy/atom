@@ -47,6 +47,9 @@ public struct ServiceConfiguration: Sendable {
     /// The queue to dispatch `Result` object on.
     let dispatchQueue: DispatchQueue
 
+    /// The plugins wrapped around request execution, outermost first.
+    let plugins: [any AtomPlugin]
+
     /// The standardized timeout interval for request and resource.
     let timeout: ServiceTimeout
 
@@ -66,6 +69,7 @@ public struct ServiceConfiguration: Sendable {
     ///   - decoder:              The `JSONDecoder` for decoding data into models.
     ///   - dispatchQueue:        The queue to dispatch `Result` object on.
     ///   - multipathServiceType: The service type that specifies the Multipath TCP connection policy for transmitting data over Wi-Fi and cellular interfaces.
+    ///   - plugins:              The plugins wrapped around request execution, outermost first. Default value is empty.
     ///   - timeout:              Timeout interval needed for URLSessionConfiguration.
     ///   - isLogEnabled:         A `Bool` indicating whether or not all service requests should be logged to the console.
     public init(
@@ -74,6 +78,7 @@ public struct ServiceConfiguration: Sendable {
         decoder: JSONDecoder = .init(),
         dispatchQueue: DispatchQueue = .main,
         multipathServiceType: MultipathServiceType = .none,
+        plugins: [any AtomPlugin] = .init(),
         timeout: ServiceTimeout = .init(),
         isLogEnabled: Bool = false
     ) {
@@ -82,6 +87,7 @@ public struct ServiceConfiguration: Sendable {
         self.decoder = decoder
         self.dispatchQueue = dispatchQueue
         self.multipathServiceType = multipathServiceType
+        self.plugins = plugins
         self.timeout = timeout
         self.isLogEnabled = isLogEnabled
     }
